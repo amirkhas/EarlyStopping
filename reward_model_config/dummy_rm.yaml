@@ -1,0 +1,3 @@
+_target_: diverse_decoding.lm.reward_models.dummy_rm.DummyRM
+
+name: DummyRM

@@ -1,0 +1,10 @@
+_target_: diverse_decoding.lm.reward_models.qwen_prm.QwenPRM
+
+name: Qwen7bPRM800K
+
+model_name: Qwen/Qwen2.5-Math-7B-PRM800K
+batch_size: 1
+device_map: auto 
+torch_dtype_name: torch.bfloat16 
+local_model_weights_dir: /data/model-weights
+s3_model_weights_dir: s3://aminra/model-weights/

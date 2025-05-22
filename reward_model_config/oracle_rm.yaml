@@ -1,0 +1,3 @@
+_target_: diverse_decoding.lm.reward_models.oracle_rm.OracleRM
+
+name: OracleRM

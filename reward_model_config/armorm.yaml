@@ -1,0 +1,11 @@
+_target_: diverse_decoding.lm.reward_models.armorm.ArmoRMRewardModel
+
+name: ArmoRM
+batch_size: 40
+device_map: auto 
+torch_dtype_name: torch.bfloat16 
+truncation: True 
+trust_remote_code: True 
+max_length: 6144
+local_model_weights_dir: /data/model-weights
+s3_model_weights_dir: s3://aminra/model-weights/
