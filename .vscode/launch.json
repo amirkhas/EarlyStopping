@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Debug vLLM Script", // Give it a clear name
+            "type": "python",
+            "request": "launch",
+            "program": "${file}", // This runs the currently open file
+            // Or specify the file directly: "program": "${workspaceFolder}/your_script_name.py",
+            "console": "integratedTerminal",
+            "env": {
+                // You can add other env vars here if needed, e.g.
+                // "CUDA_VISIBLE_DEVICES": "0"
+            },
+            "justMyCode": true // Or false, sometimes helps with deep library debugging
+        }
+    ]
+}
