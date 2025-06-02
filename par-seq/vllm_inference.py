@@ -70,14 +70,17 @@ for i in tqdm(range(0, len(prompts), BATCH_SIZE), ncols=80): # iterate over data
     outputs = llm.generate(batch_prompts, sampler, use_tqdm=False)
     
     for j, out in enumerate(outputs): # iterate over batches
-
+        
+        sample_num = i + j
         for k in range(N): # iterate over BoN
+
             txt = out.outputs[k].text.strip()
             if k == 0:
-                ALL_GEN[ds[i]['unique_id']]['prompt_and_gen'] = [prompts[i] + txt]
+                ALL_GEN[ds[sample_num]['unique_id']]['prompt_and_gen'] = [prompts[sample_num] + txt]
             else:
-                ALL_GEN[ds[i]['unique_id']]['prompt_and_gen'].append(prompts[i] + txt)
-            ALL_GEN[ds[i]['unique_id']]['answer'] = ds[i]["answer"].strip()
+                ALL_GEN[ds[sample_num]['unique_id']]['prompt_and_gen'].append(prompts[sample_num] + txt)
+        
+        ALL_GEN[ds[sample_num]['unique_id']]['answer'] = ds[sample_num]["answer"].strip()
 
         # Extract the last line after 'Answer:' (very simple parser)
         preds.append(txt)
