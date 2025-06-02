@@ -40,20 +40,24 @@ rm_tokenizer = AutoTokenizer.from_pretrained(rm_model_name)
 outputs = defaultdict(dict)
 
 
-with open("results/Qwen2.5-3B-Instruct_GENs.pkl", "rb") as f:
+with open("par-seq/results/Qwen2.5-3B-Instruct_GENs.pkl", "rb") as f:
     all_res = pickle.load(f)
 
 
+for i, value in all_res.items():
+
+    for j in range(N):
+
+        chat = value['prompt_and_gen'][j]
+        answer = value['answer']
+            
         
-    chat = [{"role": "user", "content": orig_data['en']}, {"role": "assistant", "content": coe_res['output_seq']}]
-    conv_tokenized = rm_tokenizer.apply_chat_template(chat, tokenize=True, return_tensors="pt").to(device)
-    with torch.no_grad():
-        score = rm(conv_tokenized).logits[0][0].item()
+        # conv_tokenized = rm_tokenizer.apply_chat_template(chat, tokenize=True, return_tensors="pt").to(device)
+        conv_tokenized = rm_tokenizer(chat, return_tensors="pt").to(device)['input_ids']
+        
+        with torch.no_grad():
+            score = rm(conv_tokenized).logits[0][0].item()
 
-    print('score', score)
-
-    outputs[f'{i}_{j}']['reward'] = score
-    outputs[f'{i}_{j}']['binary'] = binary
-    outputs[f'{i}_{j}']['coe_features'] = [coe_score['Mag'], coe_score['Ang'], coe_score['R'], coe_score['C']]
+        print('score', score)
 
 
