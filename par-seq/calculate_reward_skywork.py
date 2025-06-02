@@ -16,7 +16,7 @@ def read_jsonl_line(file_path, line_number):
 
 M, A, R, C = [], [], [], []
 coe_features = {}
-num_sample, N = 500, 32
+num_sample, N = 500, 2
 correct_counter = 0
 
 
@@ -32,7 +32,7 @@ rm = AutoModelForSequenceClassification.from_pretrained(
     rm_model_name,
     torch_dtype=torch.bfloat16,
     device_map=device,
-    attn_implementation="flash_attention_2",
+    # attn_implementation="flash_attention_2",
     num_labels=1,
 )
 rm_tokenizer = AutoTokenizer.from_pretrained(rm_model_name)

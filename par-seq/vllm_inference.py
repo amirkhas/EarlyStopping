@@ -47,7 +47,7 @@ prompts = [make_prompt(ex["problem"]) for ex in ds]
 # ---------------------------------------------------------------------
 MODEL_NAME = "Qwen/Qwen2.5-3B-Instruct"
 BATCH_SIZE = 8                         # adjust to fit GPU memory
-N = 32 ### N for BoN
+N = 64 ### N for BoN
 sampler = SamplingParams(
     temperature=1.0,                     # deterministic → better eval
     max_tokens=2048,

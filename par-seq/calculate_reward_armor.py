@@ -21,7 +21,15 @@ correct_counter = 0
 
 model_name = "qwen2.5-3b-Instruct"  #"llama3.1-8b-Instruct"
 
-rm = ArmoRMPipeline("RLHFlow/ArmoRM-Llama3-8B-v0.1", trust_remote_code=True)
+
+
+import torch
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+device = "cuda"
+path = "RLHFlow/ArmoRM-Llama3-8B-v0.1"
+model = AutoModelForSequenceClassification.from_pretrained(path, device_map=device, 
+                               trust_remote_code=True, torch_dtype=torch.bfloat16)
+tokenizer = AutoTokenizer.from_pretrained(path, use_fast=True)
 
 
 with open("par-seq/results/Qwen2.5-3B-Instruct_GENs.pkl", "rb") as f:
@@ -35,9 +43,9 @@ for i, value in all_res.items():
         chat = value['prompt_and_gen'][j]
         answer = value['answer']
             
-        
-        # conv_tokenized = rm_tokenizer.apply_chat_template(chat, tokenize=True, return_tensors="pt").to(device)
-        # conv_tokenized = rm_tokenizer(chat, return_tensors="pt").to(device)['input_ids']
-        score = rm(chat)
-        print('score', score)
+        with torch.no_grad():
+            # conv_tokenized = rm_tokenizer.apply_chat_template(chat, tokenize=True, return_tensors="pt").to(device)
+            conv_tokenized = tokenizer(chat, return_tensors="pt").to(device)['input_ids']
+            score = model(conv_tokenized).score()
+            print('score', score)
 
